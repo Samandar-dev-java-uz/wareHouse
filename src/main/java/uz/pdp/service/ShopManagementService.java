@@ -47,7 +47,7 @@ public class ShopManagementService {
         e.printStackTrace();
     }
     }
-    public void Create() {
+    public void CreateShop(String name) {
         try{
             read();
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class ShopManagementService {
         }
         Shop shop = Shop.builder()
                 .Id(UUID.randomUUID().toString())
-                .name(scannerStr.nextLine())
+                .name(name)
                 .build();
         shopList.add(shop);
         try {

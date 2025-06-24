@@ -55,16 +55,20 @@ public class MainService {
                  0 exit
                  1 Input product
                  2 output product
-               
+                 3 show input product
+                 4 show output product
                  """);
          switch (number()){
              case 0 ->{return;}
              case 1 -> inputProduct();
              case 2 -> outputProduct();
-
-             case 3 ->{}
+             case 3 -> ShowInputProduct();
          }
      }
+    }
+
+    private void ShowInputProduct() {
+
     }
 
     private void outputProduct() {
@@ -212,12 +216,14 @@ public class MainService {
                   1 create Category
                   2 edit Category
                   3 delete Category
+                  4 show Category
                   """);
           switch (number()){
               case 0 ->{return;}
               case 1 -> createCategoryM();
               case 2 -> editCategory();
               case 3 -> deleteCategory();
+              case 4 -> ShowCategory();
               default -> {
                   System.out.println(" not found method");
                   return;
@@ -225,6 +231,10 @@ public class MainService {
           }
       }
 
+    }
+
+    private void ShowCategory() {
+     categoryManagement.getAllCategory().stream().forEach(category -> System.out.println(category));
     }
 
     private void deleteCategory() {
@@ -260,7 +270,14 @@ public class MainService {
 
     private void createCategoryM() {
         System.out.println(" enter category name");
-        categoryManagement.createCategory();
+        String name = scannerStr.nextLine();
+          Boolean test = categoryManagement.getAllCategory().stream().anyMatch(category -> Objects.equals(category.getName(),name));
+          if (test.equals(true)){
+              System.out.println("⚠ Category with this name already exists!");
+              return;
+          }
+        categoryManagement.createCategory(name);
+
     }
 
     private void productMange() {
@@ -271,18 +288,30 @@ public class MainService {
                     1 create product
                     2 edit product
                     3 delete product
+                    4 show Product
                     """);
             switch (number()){
                 case 0 ->{return;}
                 case 1 -> createProduct();
                 case 2 -> EditProduct();
                 case 3 -> DeleteProduct();
+                case 4 -> ShowProduct();
+                default -> {
+                    System.out.println(" not found ");
+                    return;
+                }
+
+
             }
         }
 
 
 
 
+    }
+
+    private void ShowProduct() {
+     productManagement.getAllProduct().stream().forEach(product -> System.out.println(product));
     }
 
     private void DeleteProduct() {
@@ -324,59 +353,86 @@ public class MainService {
     }
 
     private void createProduct() {
-        categoryManagement.getAllCategory().stream().forEach(category -> System.out.println(" Category ->" + category.getName() + "  : token ->"+category.getId()));
-        System.out.println(" select category token");
+
+        categoryManagement.getAllCategory().forEach(category ->
+                System.out.println(" Category -> " + category.getName() + "  : token -> " + category.getId())
+        );
+
+        System.out.println("Select category token:");
         String select_token_category = scannerStr.nextLine();
-        categoryManagement.getAllCategory().stream().filter(category -> Objects.equals(category.getId(),select_token_category)).findFirst()
-                        .ifPresentOrElse(category -> {
-                            companyManagement.getAll().stream().forEach(company -> System.out.println( " Company -> "+ company.getName() +"  Token ->" +company.getId() ));
-                            System.out.println(" select company Token ");
-                            String select_token_company = scannerStr.nextLine();
-                            companyManagement.getAll().stream().filter(company -> Objects.equals(company.getId(),select_token_company)).findFirst()
-                                    .ifPresentOrElse(company -> {
-                                                System.out.println(" enter product name");
-                                                String product_name = scannerStr.nextLine();
-                                                productManagement.getAllProduct().stream().filter(product -> Objects.equals(product.getName(),product_name)).findFirst().ifPresentOrElse(
-                                                        product -> {
-                                                            System.out.println(" has  product name ");
-                                                            return;
-                                                        },
-                                                        () ->{ }
-                                                );
-                                                System.out.println(" enter product price ");
-                                                Double price_product = price();
-                                                System.out.println("""
-                1 KG
-                2 GR
-                3 METER
-                4 LITER
-                5 SM
-                """);
-                                                switch (number()){
 
-                                                    case 1 ->{productManagement.saveProduct(select_token_category,select_token_company,product_name,price_product,"KG");System.out.println("\u2714 successful ");}
-                                                    case 2 ->{productManagement.saveProduct(select_token_category,select_token_company,product_name,price_product,"GR");System.out.println("\u2714 successful ");}
-                                                    case 3 ->{productManagement.saveProduct(select_token_category,select_token_company,product_name,price_product,"METER");System.out.println("\u2714 successful ");}
-                                                    case 4 ->{productManagement.saveProduct(select_token_category,select_token_company,product_name,price_product,"LITER");System.out.println("\u2714 successful ");}
-                                                    case 5 ->{productManagement.saveProduct(select_token_category,select_token_company,product_name,price_product,"SM");System.out.println("\u2714 successful ");}
-                                                    default -> {
-                                                        System.out.println("  \u2716 not found method ");
-                                                        return;
-                                                    }}
-                                            },
-                                            ()->{
-                                                System.out.println("   \u2716 not  found company");
-                                                return;
-                                            });
+        categoryManagement.getAllCategory().stream()
+                .filter(category -> Objects.equals(category.getId(), select_token_category))
+                .findFirst()
+                .ifPresentOrElse(category -> {
 
-                        },()->{
-                            System.out.println("  \u2716 not found category ");
-                            return;
-                        });
+                    companyManagement.getAll().forEach(company ->
+                            System.out.println(" Company -> " + company.getName() + "  Token -> " + company.getId())
+                    );
+
+                    System.out.println("Select company token:");
+                    String select_token_company = scannerStr.nextLine();
+
+                    companyManagement.getAll().stream()
+                            .filter(company -> Objects.equals(company.getId(), select_token_company))
+                            .findFirst()
+                            .ifPresentOrElse(company -> {
+
+                                System.out.println("Enter product name:");
+                                String product_name = scannerStr.nextLine();
+
+                                boolean productExists = productManagement.getAllProduct().stream()
+                                        .anyMatch(product -> Objects.equals(product.getName(), product_name));
+
+                                if (productExists) {
+                                    System.out.println("⚠ Product with this name already exists!");
+                                    return;
+                                }
 
 
+                                System.out.println("Enter product price:");
+                                Double price_product = price();
 
+                                System.out.println("""
+                        1 KG
+                        2 GR
+                        3 METER
+                        4 LITER
+                        5 SM
+                    """);
+
+                                switch (number()) {
+                                    case 1 -> {
+                                        productManagement.saveProduct(select_token_category, select_token_company, product_name, price_product, "KG");
+                                        System.out.println("✔ Successfully created!");
+                                    }
+                                    case 2 -> {
+                                        productManagement.saveProduct(select_token_category, select_token_company, product_name, price_product, "GR");
+                                        System.out.println("✔ Successfully created!");
+                                    }
+                                    case 3 -> {
+                                        productManagement.saveProduct(select_token_category, select_token_company, product_name, price_product, "METER");
+                                        System.out.println("✔ Successfully created!");
+                                    }
+                                    case 4 -> {
+                                        productManagement.saveProduct(select_token_category, select_token_company, product_name, price_product, "LITER");
+                                        System.out.println("✔ Successfully created!");
+                                    }
+                                    case 5 -> {
+                                        productManagement.saveProduct(select_token_category, select_token_company, product_name, price_product, "SM");
+                                        System.out.println("✔ Successfully created!");
+                                    }
+                                    default -> System.out.println("✖ Not found method");
+                                }
+                            }, () -> {
+                                System.out.println("✖ Company not found");
+                            });
+
+                }, () -> {
+                    System.out.println("✖ Category not found");
+                });
     }
+
 
     private void shopMange() {
 
@@ -386,18 +442,24 @@ public class MainService {
                  1 create shop
                  2 edit shop
                  3 delete shop
+                 4 Show Shop
                  """);
          switch (number()){
              case 0 ->{return;}
              case 1 -> CreateShop();
              case 2 -> editShop();
              case 3 -> deleteShop();
+             case 4 -> ShowShop();
              default -> {
                  System.out.println(" \u2716 not found method");
                  return;
              }
          }
      }
+    }
+
+    private void ShowShop() {
+     shopManagement.GetAllShop().stream().forEach(shop -> System.out.println(shop));
     }
 
     private void deleteShop() {
@@ -442,7 +504,13 @@ public class MainService {
 
     private void CreateShop() {
         System.out.println(" enter shop name ");
-        shopManagement.Create();
+        String name = scannerStr.nextLine();
+        boolean test = shopManagement.GetAllShop().stream().anyMatch(shop -> Objects.equals(shop.getName(),name));
+        if (test == true){
+            System.out.println("⚠ shop with this name already exists!");
+            return;
+        }
+        shopManagement.CreateShop(name);
         System.out.println("\u2714 successful ");
     }
 
@@ -454,12 +522,14 @@ public class MainService {
                     1 create company
                     2 edit company
                     3 delete company
+                    4 show company
                     """);
             switch (number()){
                 case 0 ->{return;}
                 case 1 -> createCompany();
                 case 2 -> EditCompany();
                 case 3 -> deleteCompany();
+                case 4 -> showCompany();
                 default -> {
                     System.out.println("\u2716  not found method ");
                     return;
@@ -468,6 +538,10 @@ public class MainService {
             }
 
         }
+    }
+
+    private void showCompany() {
+     companyManagement.getAll().stream().forEach(company -> System.out.println(company));
     }
 
     private void deleteCompany() {
@@ -506,7 +580,12 @@ public class MainService {
 
     private void createCompany() throws Exception {
         System.out.println(" enter company name ");
-      companyManagement.create();
+        String name = scannerStr.nextLine();
+        if(companyManagement.getAll().stream().anyMatch(company -> Objects.equals(company.getName(),name))){
+            System.out.println("⚠ Company with this name already exists!");
+            return;
+        }
+      companyManagement.create(name);
     }
 
 }

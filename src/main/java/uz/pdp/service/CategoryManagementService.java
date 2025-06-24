@@ -39,7 +39,7 @@ public class CategoryManagementService {
         return categoryList;
     }
 
-    public void createCategory(){
+    public void createCategory(String name){
         try{
             read();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class CategoryManagementService {
         }
         Category category = Category.builder()
                 .id(UUID.randomUUID().toString())
-                .name(scannerStr.nextLine())
+                .name(name)
                 .build();
         categoryList.add(category);
         try{
@@ -93,86 +93,5 @@ public class CategoryManagementService {
          }
     }
 
-    public static class InputOutputService {
 
-        private void write() throws IOException {
-            BufferedWriter write = new BufferedWriter(new FileWriter(fileInt));
-            write.write(gson.toJson(inputList));
-            write.close();
-        }
-        private void read() throws IOException {
-             BufferedReader read = new BufferedReader( new FileReader(fileInt));
-             String text;
-             StringBuilder txt = new StringBuilder("");
-
-             while ((text= read.readLine())!=null){
-
-                 txt.append(text);
-
-             }
-             read.close();
-            Input[] inputs = gson.fromJson(txt.toString(), Input[].class);
-            inputList = new ArrayList<>(Arrays.asList(inputs));
-
-        }
-
-
-
-        public String addInputProduct(Product product, Double price) {
-            try{
-                read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Input input = Input.builder()
-                    .id(UUID.randomUUID().toString())
-                    .Company_Id(product.getCompany_id())
-                    .date(LocalDate.now().toString())
-                    .overallPrice(price)
-                    .build();
-            inputList.add(input);
-            try{
-                write();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            return input.getId();
-        }
-
-        public void saveInputProduct(String id, InoutProduct inoutProduct) {
-            try{
-                read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            inputList.stream()
-                    .filter(input -> Objects.equals(input.getId(), id))
-                    .findFirst()
-                    .ifPresentOrElse(
-                            input -> {
-                                List<InoutProduct> productList1 = input.getProductList();
-
-                                if (productList1 == null) {
-                                    productList1 = new ArrayList<>();
-                                    input.setProductList(productList1);
-                                }
-
-                                productList1.add(inoutProduct);
-                            },
-                            () -> {
-
-                            }
-                    );
-            try{
-                write();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-
-
-    }
 }

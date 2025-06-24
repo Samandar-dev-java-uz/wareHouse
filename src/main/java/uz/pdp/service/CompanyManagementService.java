@@ -47,11 +47,11 @@ public class CompanyManagementService {
         writer.write(gson.toJson(companies));
         writer.close();
     }
-    public  void create() throws Exception {
+    public  void create( String name) throws Exception {
         read();
         Company company =  Company.builder()
                 .id(UUID.randomUUID().toString())
-                .name(scannerStr.nextLine())
+                .name(name)
                 .build();
         companies.add(company);
         write();

@@ -43,5 +43,14 @@
     "count": 0,
     "measure": "GR",
     "Company_id": "113b7608-ad7a-4094-9169-f7c6a4c995be"
+  },
+  {
+    "id": "563475f1-2f9f-4675-885f-b898d47fc54d",
+    "name": "cola 0.5",
+    "Category_id": "d7d22095-325e-4389-a836-ab78abca518c",
+    "price": 7000.0,
+    "count": 0,
+    "measure": "LITER",
+    "Company_id": "baccfd14-4f8b-43a8-83ec-437731c93b2b"
   }
 ]
