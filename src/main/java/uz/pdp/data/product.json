@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ce50720e-fd08-4eaf-81fb-72efac6d581f",
+    "name": "milliy colo",
+    "Category_id": "d7d22095-325e-4389-a836-ab78abca518c",
+    "price": 12000.0,
+    "count": -200,
+    "measure": "LITER",
+    "Company_id": "baccfd14-4f8b-43a8-83ec-437731c93b2b"
+  },
+  {
+    "id": "5674ac21-d6cd-4368-9022-a48990f44b41",
+    "name": "0.5 cola",
+    "Category_id": "d7d22095-325e-4389-a836-ab78abca518c",
+    "price": 6.0,
+    "count": 2160,
+    "measure": "LITER",
+    "Company_id": "baccfd14-4f8b-43a8-83ec-437731c93b2b"
+  },
+  {
+    "id": "f13ea769-ea6b-48b1-92bc-b8528f23b601",
+    "name": "pepsi 0.5",
+    "Category_id": "d7d22095-325e-4389-a836-ab78abca518c",
+    "price": 7000.0,
+    "count": 108,
+    "measure": "LITER",
+    "Company_id": "abf0e721-2622-4c32-af70-45bfd5757304"
+  },
+  {
+    "id": "cd4cf517-91a4-4c67-b2ab-983eb4ad6169",
+    "name": "pepsi 1",
+    "Category_id": "d7d22095-325e-4389-a836-ab78abca518c",
+    "price": 12000.0,
+    "count": 0,
+    "measure": "LITER",
+    "Company_id": "abf0e721-2622-4c32-af70-45bfd5757304"
+  },
+  {
+    "id": "f7c70f71-be5d-4299-91fb-5f97ac0bcaa1",
+    "name": "pilitka",
+    "Category_id": "3be9dd35-fcc9-46de-aea0-0b63d211bb9a",
+    "price": 15000.0,
+    "count": 0,
+    "measure": "GR",
+    "Company_id": "113b7608-ad7a-4094-9169-f7c6a4c995be"
+  }
+]
