@@ -1,0 +1,15 @@
+[
+  {
+    "id": "dec2eeaf-415d-4828-8566-0b8822ff9790",
+    "date": "2025-06-24",
+    "overallPrice": 2000.0,
+    "Shop_id": "6a247aa5-9413-40e8-8e87-70709c05fbfd",
+    "productList": [
+      {
+        "id": "f771bb71-2023-45e2-aa8b-aae3fff0c38f",
+        "Product_id": "ce50720e-fd08-4eaf-81fb-72efac6d581f",
+        "count": 100
+      }
+    ]
+  }
+]
